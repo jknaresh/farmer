@@ -29,96 +29,79 @@ jQuery(function(){
 
     if(jQuery("#farmers").length > 0){
 
-    var dialog, form,
+        var dialog, form,
 
-      // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
-      emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-      name = $( "#name" ),
-      email = $( "#email" ),
-      password = $( "#password" ),
-      allFields = $( [] ).add( name ).add( email ).add( password ),
-      tips = $( ".validateTips" );
+          // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
+          emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+          name = $( "#name" ),
+          email = $( "#email" ),
+          password = $( "#password" ),
+          allFields = $( [] ).add( name ).add( email ).add( password ),
+          tips = $( ".validateTips" );
 
-        function updateTips( t ) {
-          tips
-            .text( t )
-            .addClass( "ui-state-highlight" );
-          setTimeout(function() {
-            tips.removeClass( "ui-state-highlight", 1500 );
-          }, 500 );
-        }
-
-        function checkLength( o, n, min, max ) {
-          if ( o.val().length > max || o.val().length < min ) {
-            o.addClass( "ui-state-error" );
-            updateTips( "Length of " + n + " must be between " +
-              min + " and " + max + "." );
-            return false;
-          } else {
-            return true;
-          }
-        }
-
-        function checkRegexp( o, regexp, n ) {
-          if ( !( regexp.test( o.val() ) ) ) {
-            o.addClass( "ui-state-error" );
-            updateTips( n );
-            return false;
-          } else {
-            return true;
-          }
-        }
-
-        function addUser() {
-            // bypass all validations
-            //
-            var jFrm = jQuery("form.cls_frm_add_farmer");
-            data = jFrm.serializeObject();
-            console.log(jFrm.serializeObject());
-            var valid = true;
-            jQuery.ajax({
-                url: "/api/farmers/",
-                type: "POST",
-                data: JSON.stringify(data),
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken'),
-                    "Content-Type": "application/json"
-                },
-                dataType: "json",
-                success: function(r){
-                    console.log(r);
-                    if ( r.id != void 0 ) {
-                        $( "#farmers tbody" ).append( "<tr>" +
-                          "<td>" + r.name + "</td>" +
-                          "<td>" + r.contact_no + "</td>" +
-                          "<td>" + r.pin + "</td>" +
-                          "<td>" + r.address + "</td>" +
-                          "<td>remove</td>" +
-                        "</tr>" );
-                        dialog.dialog( "close" );
-                    }
-                }
-            });
-            allFields.removeClass( "ui-state-error" );
-
-//            valid = valid && checkLength( name, "username", 3, 16 );
-//            valid = valid && checkLength( email, "email", 6, 80 );
-//            valid = valid && checkLength( password, "password", 5, 16 );
-//
-//            valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
-//            valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
-//            valid = valid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-
-            if ( valid ) {
-                $( "#users tbody" ).append( "<tr>" +
-                  "<td>" + name.val() + "</td>" +
-                  "<td>" + email.val() + "</td>" +
-                  "<td>" + password.val() + "</td>" +
-                "</tr>" );
-                dialog.dialog( "close" );
+            function updateTips( t ) {
+              tips
+                .text( t )
+                .addClass( "ui-state-highlight" );
+              setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+              }, 500 );
             }
-            return valid;
-        }
+
+            function checkLength( o, n, min, max ) {
+              if ( o.val().length > max || o.val().length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( "Length of " + n + " must be between " +
+                  min + " and " + max + "." );
+                return false;
+              } else {
+                return true;
+              }
+            }
+
+            function checkRegexp( o, regexp, n ) {
+              if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+              } else {
+                return true;
+              }
+            }
+
+            function addUser() {
+                // bypass all validations
+                //
+                var jFrm = jQuery("form.cls_frm_add_farmer");
+                data = jFrm.serializeObject();
+                console.log(jFrm.serializeObject());
+                var valid = true;
+                jQuery.ajax({
+                    url: "/api/farmers/",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        "Content-Type": "application/json"
+                    },
+                    dataType: "json",
+                    success: function(r){
+                        console.log(r);
+                        if ( r.id != void 0 ) {
+                            $( "#farmers tbody" ).append( "<tr>" +
+                              "<td>" + r.name + "</td>" +
+                              "<td>" + r.contact_no + "</td>" +
+                              "<td>" + r.pin + "</td>" +
+                              "<td>" + r.address + "</td>" +
+                              "<td>remove</td>" +
+                            "</tr>" );
+                            dialog.dialog( "close" );
+                        }
+                    }
+                });
+                allFields.removeClass( "ui-state-error" );
+                return valid;
+            }
 
             dialog = $( "#farmer-dialog-form" ).dialog({
               autoOpen: false,
@@ -143,17 +126,16 @@ jQuery(function(){
         });
 
         jQuery('body').on("click", ".cls_add_farmer", function(){
-                dialog.dialog( "open" );
-            });
-
+            dialog.dialog( "open" );
+        });
 
         // cls_add_farmer, cls_remove_farmer, cls_farmer_edit
         jQuery.get("/api/farmers/", function(r){
-            console.log(r);
             jQuery.each(r.results, function(i, obj){
                 obj.remove = "<a href='#' data-id='"+obj.id+"' class='cls_remove_farmer'>remove</a>";
                 obj.name1 = '<a href="#" class="cls_farmer_edit" data-id="'+obj.id+'">'+obj.name+'</a>';
             });
+
             jQuery("#farmers").DataTable( {
                 "data": r.results,
                 "columns": [
@@ -166,4 +148,5 @@ jQuery(function(){
             } );
         });
     }
+
 });
