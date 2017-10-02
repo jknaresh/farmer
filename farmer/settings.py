@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    u"bio_data",
+    u"farm_field",
 ]
 
 MIDDLEWARE = [
@@ -54,7 +57,7 @@ ROOT_URLCONF = 'farmer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [PROJECT_ROOT+"/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,8 +78,10 @@ WSGI_APPLICATION = 'farmer.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': "farmer",
+        'USER': 'root',
+        'PASSWORD': 'root',
     }
 }
 
@@ -105,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Calcutta'
 
 USE_I18N = True
 
@@ -118,3 +123,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Additional locations of static files
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    PROJECT_ROOT+"/static/",
+)
+
+# The agricultural crop year in India is from July to June. The Indian cropping
+# season is classified into two main seasons-(i) Kharif and (ii) Rabi based on
+# the monsoon. The kharif cropping season is from July to October during the
+# south-west monsoon and the Rabi cropping season is from October-March (winter)
+
+SEASON = (
+    (u"1", u"kharif"), (u"2", u"rabi"), (u"3", u"winter")
+)
+
+SEASON_DICT = dict(SEASON)
+SEASON_BY_VALUE = {SEASON_DICT[k]: k for k in SEASON_DICT}
+
