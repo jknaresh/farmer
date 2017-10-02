@@ -10,7 +10,7 @@ class FarmerBioDataSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = FarmerBioData
-        fields = ('url', 'name', 'contact_no', 'address', 'pin')
+        fields = ('url', 'id', 'name', 'contact_no', 'address', 'pin')
 
 
 class FarmSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,7 +21,7 @@ class FarmSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Farm
-        fields = ('url', 'farmer', 'farmer_id', 'name', 'details', )
+        fields = ('url', 'id', 'farmer', 'farmer_id', 'name', 'details', )
 
     def create(self, validated_data):
         farmer = validated_data.pop('farmer_id')
@@ -41,7 +41,7 @@ class FarmFieldSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = FarmField
         fields = (
-            'url', 'farm', 'farm_id', 'name', 'season', 'crop_type',
+            'url', 'id', 'farm', 'farm_id', 'name', 'season', 'crop_type',
             'field_from', 'field_to', 'land_coordinates'
             )
 

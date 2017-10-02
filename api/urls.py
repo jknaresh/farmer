@@ -12,6 +12,6 @@ router.register(r'farm-field', api_view.FarmFieldViewSet)
 app_name = 'api'
 urlpatterns = [
     url(r'^', include(router.urls)),
-    url(r'^api/', include(router.urls, namespace='api')),
+    # url(r'^', include(router.urls, namespace='api')),
     url(r'^token/$', obtain_auth_token),
 ]

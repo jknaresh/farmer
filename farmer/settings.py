@@ -45,7 +45,8 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAdminUser',
         # 'rest_framework.permissions.IsAuthenticated',
     ),
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -55,8 +56,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
-        'rest_framework.parsers.MultiPartParser',
-        'rest_framework.parsers.FileUploadParser',
+        # 'rest_framework.parsers.MultiPartParser',
+        # 'rest_framework.parsers.FileUploadParser',
     ),
 }
 
