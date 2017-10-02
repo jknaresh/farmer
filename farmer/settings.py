@@ -16,7 +16,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,9 +36,31 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    u"bio_data",
-    u"farm_field",
+    u'rest_framework',
+    u'rest_framework.authtoken',
+    u"api.apps.ApiConfig",
+    u"bio_data.apps.BioDataConfig",
+    u"farm_field.apps.FarmFieldConfig",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+        # 'rest_framework.permissions.IsAuthenticated',
+    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.TokenAuthentication',
+    #     "rest_framework.authentication.SessionAuthentication",
+    # ),
+    'PAGE_SIZE': 10,
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.FileUploadParser',
+    ),
+}
+
+REST_SESSION_LOGIN = False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,7 +77,7 @@ ROOT_URLCONF = 'farmer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [PROJECT_ROOT+"/templates"],
+        'DIRS': [PROJECT_ROOT + "/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,7 +92,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'farmer.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -84,7 +103,6 @@ DATABASES = {
         'PASSWORD': 'root',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -104,7 +122,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -118,7 +135,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -129,7 +145,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    PROJECT_ROOT+"/static/",
+    PROJECT_ROOT + "/static/",
 )
 
 # The agricultural crop year in India is from July to June. The Indian cropping
@@ -144,3 +160,11 @@ SEASON = (
 SEASON_DICT = dict(SEASON)
 SEASON_BY_VALUE = {SEASON_DICT[k]: k for k in SEASON_DICT}
 
+CROP_TYPE = (
+    (u"1", u"Millets (Bajra & Jowar)"), (u"2", u"Cotton"), (u"3", u"Soyabean"),
+    (u"4", u"Sugarcane"), (u"5", u"Turmeric"), (u"6", u"Paddy (Rice)"),
+    (u"7", u"Maize"), (u"8", u"Moong (Pulses)"), (u"9", u"Groundnut"),
+    (u"10", u"Red Chillies"), (u"11", u"Wheat"), (u"12", u"Peas"),
+)
+CROP_TYPE_DICT = dict(CROP_TYPE)
+CROP_TYPE_BY_VALUE = {CROP_TYPE_DICT[k]: k for k in CROP_TYPE_DICT}

@@ -14,4 +14,8 @@ class FarmerBioData(models.Model):
     created_on = models.DateTimeField(editable=False, auto_now_add=True)
     # Only on creation
     update_on = models.DateTimeField(editable=False, auto_now=True)
+
     # On every save
+
+    def __unicode__(self):
+        return self.name
