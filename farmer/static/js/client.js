@@ -149,4 +149,58 @@ jQuery(function(){
         });
     }
 
+    jQuery("body").on("click touch", "a.cls_add_farm", function(){
+        jQuery("div#id_frm_html").show('slow');
+    });
+
+
+    jQuery("body").on("submit", "form.cls_frm_save_farm", function(){
+        var jFrm = jQuery("form.cls_frm_save_farm");
+        data = jFrm.serializeObject();
+        var valid = true;
+        jQuery.ajax({
+            url: "/api/farm/",
+            type: "POST",
+            data: JSON.stringify(data),
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                "Content-Type": "application/json"
+            },
+            dataType: "json",
+            success: function(r){
+                console.log(r);
+                if ( r.id != void 0 ) {
+                    jQuery( "table#farm tbody" ).append( "<tr>" +
+                      "<td>" + r.name + "</td>" +
+                      "<td>" + r.details + "</td>" +
+                      "<td>" + r.farmer.name + "</td>" +
+                      "<td>remove</td>" +
+                    "</tr>" );
+                    jFrm[0].reset();
+                    jQuery("div#id_frm_html").hide();
+                }
+            }
+        });
+    });
+
+    if(jQuery("table#farm").length > 0){
+        jQuery.get("/api/farm/", function(r){
+            console.log(r);
+            jQuery.each(r.results, function(i, obj){
+                obj.name1 = '<a href="#" >'+obj.name+'</a>';
+                obj.remove = '<a>remove</a>';
+                obj.farmer_name = obj.farmer.name;
+            });
+
+            jQuery("table#farm").DataTable({
+                "data": r.results,
+                "columns": [
+                    { "data": "name1" },
+                    { "data": "details" },
+                    { "data": "farmer_name" },
+                    { "data": "remove" },
+                ]
+            });
+        });
+    }
 });

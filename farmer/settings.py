@@ -95,6 +95,7 @@ WSGI_APPLICATION = 'farmer.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+# CREATE DATABASE farmer CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DATABASES = {
     'default': {

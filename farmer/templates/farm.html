@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Farm</h1>
+<a href="#" class="cls_add_farm">Add farm</a>
+<div style="display:none" id="id_frm_html">
+    <form method="post" action="/api/farm/" onsubmit="return false;" class="cls_frm_save_farm">
+        {% csrf_token%}
+        <select name="farmer_id">
+            <option>-Select Farmer</option>
+            {% for farmer in farmers %}
+            <option value="{{farmer.id}}">Farmer {{farmer.name}}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="name" placeholder="Farm Name" maxlength="50" required />
+        <input type="text" name="details" placeholder="Farm details" maxlength="50" required />
+        <button type="submit">Save</button>
+    </form>
+</div>
+<h4>List</h4>
+<table id="farm" class="display" width="100%" cellspacing="0" border="1">
+    <thead>
+    <tr>
+        <th>Farm Name</th>
+        <th>Details</th>
+        <th>Farmer</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th>Farm Name</th>
+        <th>Details</th>
+        <th>Farmer</th>
+        <th>Delete</th>
+    </tr>
+    </tfoot>
+</table>
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<!--<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/client.js"></script>
+
+</body>
+</html>
