@@ -230,8 +230,6 @@ jQuery(function(){
         });
     }
 
-
-
     jQuery("body").on("submit", "form#id_frm_add_farm_field", function(){
 
         var jFrm = jQuery("form#id_frm_add_farm_field");
@@ -251,8 +249,11 @@ jQuery(function(){
                 if ( r.id != void 0 ) {
                     jQuery( "table#farm tbody" ).append( "<tr>" +
                       "<td>" + r.name + "</td>" +
-                      "<td>" + r.details + "</td>" +
-                      "<td>" + r.farmer.name + "</td>" +
+                      "<td>" + r.farm.name  + "</td>" +
+                      "<td>" + r.crop_type + "</td>" +
+                      "<td>" + r.season + "</td>" +
+                      "<td>" + r.field_from + "</td>" +
+                      "<td>" + r.field_to + "</td>" +
                       "<td>remove</td>" +
                     "</tr>" );
                     jFrm[0].reset();
