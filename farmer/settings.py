@@ -25,7 +25,7 @@ SECRET_KEY = 'a)keck4rpcpo6#7g0zamzhs6d^y3e)x1rzyqk3vnn6b-1z#jr7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['farmland.pythonanywhere.com']
 
 # Application definition
 
@@ -97,14 +97,26 @@ WSGI_APPLICATION = 'farmer.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 # CREATE DATABASE farmer CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': "farmer",
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': "farmer",
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'NAME': "farmland$default",
+        'USER': 'farmland',
+        'PASSWORD': 'abc!@#$%^a',
+        'HOST': 'farmland.mysql.pythonanywhere-services.com',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
