@@ -203,4 +203,138 @@ jQuery(function(){
             });
         });
     }
+
+
+    if(jQuery("table#farm_field").length > 0){
+
+        jQuery.get("/api/farm-field/", function(r){
+            console.log(r);
+            jQuery.each(r.results, function(i, obj){
+                obj.name1 = '<a href="#" >'+obj.name+'</a>';
+                obj.remove = '<a>remove</a>';
+                obj.farm_name = obj.farm.name;
+            });
+
+            jQuery("table#farm_field").DataTable({
+                "data": r.results,
+                "columns": [
+                    { "data": "name1" },
+                    { "data": "farm_name" },
+                    { "data": "crop_type" },
+                    { "data": "season" },
+                    { "data": "field_from" },
+                    { "data": "field_to" },
+                    { "data": "remove" },
+                ]
+            });
+        });
+    }
+
+
+
+    jQuery("body").on("submit", "form#id_frm_add_farm_field", function(){
+
+        var jFrm = jQuery("form#id_frm_add_farm_field");
+        data = jFrm.serializeObject();
+        var valid = true;
+        jQuery.ajax({
+            url: "/api/farm-field/",
+            type: "POST",
+            data: JSON.stringify(data),
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                "Content-Type": "application/json"
+            },
+            dataType: "json",
+            success: function(r){
+                console.log(r);
+                if ( r.id != void 0 ) {
+                    jQuery( "table#farm tbody" ).append( "<tr>" +
+                      "<td>" + r.name + "</td>" +
+                      "<td>" + r.details + "</td>" +
+                      "<td>" + r.farmer.name + "</td>" +
+                      "<td>remove</td>" +
+                    "</tr>" );
+                    jFrm[0].reset();
+                    jQuery("div#id_html_add_farm_field").hide('slow');
+                }
+            }
+        });
+
+    });
+
+    jQuery("body").on("click", ".cls_open_add_farm_field", function(){
+        jQuery("#id_html_add_farm_field").show('slow');
+
+        if(window.leaf_map){
+            var mymap = L.map('mapid', {drawControl: true}).setView([17.4062917, 78.4390537], 16);
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox.streets',
+                accessToken: 'pk.eyJ1IjoiamtuYXJlc2giLCJhIjoiY2o4YmFmaWlpMGMwcDJxcDYxaDgxaXIwciJ9.qBkVUuA-N3PkyMBgPddVUA'
+            }).addTo(mymap);
+
+            // add a marker in the given location
+//            L.marker(center).addTo(mymap);
+
+            // Initialise the FeatureGroup to store editable layers
+            var editableLayers = new L.FeatureGroup();
+            mymap.addLayer(editableLayers);
+
+            var drawPluginOptions = {
+                position: 'topright',
+                draw: {
+                    polygon: {
+                        allowIntersection: false, // Restricts shapes to simple polygons
+                        drawError: {
+                            color: '#e1e100', // Color the shape will turn when intersects
+                            message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+                        },
+                        shapeOptions: {
+                            color: '#97009c'
+                        }
+                    },
+                    // disable toolbar item by setting it to false
+                    polyline: false,
+                    circle: false, // Turns off this drawing tool
+                    rectangle: false,
+                    marker: false,
+                },
+                edit: {
+                    featureGroup: editableLayers, //REQUIRED!!
+                    remove: false
+                }
+            };
+
+            // Initialise the draw control and pass it the FeatureGroup of editable layers
+            var drawControl = new L.Control.Draw(drawPluginOptions);
+            mymap.addControl(drawControl);
+
+            var editableLayers = new L.FeatureGroup();
+            mymap.addLayer(editableLayers);
+
+            mymap.on('draw:created', function(e) {
+                var type = e.layerType,
+                    layer = e.layer;
+
+                if (type === 'marker') {
+                    layer.bindPopup('A popup!');
+                }
+
+                editableLayers.addLayer(layer);
+                console.log(layer);
+                gj=layer.toGeoJSON();
+                gj = gj.geometry.coordinates[0];
+                geo_arr = []
+                jQuery.each(gj,function(i, itm){
+                    geo_arr.push(itm.join(","));
+                });
+                geo_json = geo_arr.join(":");
+                console.log(geo_json);
+                jQuery("#id_land_coordinates").val(geo_json);
+            });
+        }
+    });
+
 });

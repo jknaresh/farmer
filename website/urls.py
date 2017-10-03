@@ -12,6 +12,7 @@ urlpatterns = [
         RedirectView.as_view(url="/index/", permanent=False),
         name="init"),
     url(r'^farm/$', website_view.farm, name="farm"),
+    url(r'^farm-field/$', website_view.farm_field, name="farm_field"),
 
 ]
 

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+   integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+   crossorigin=""/>
+    <style>
+        #mapid { height: 350px; }
+    </style>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="/static/js/leaf/leaflet.draw.css"/>
+
+</head>
+<body>
+<h1>farm field</h1>
+<a href="#" class="cls_open_add_farm_field">Add farm field</a>
+<div style="display:none;" id="id_html_add_farm_field">
+    <form method="post" action="/api/farm-field/" onsubmit="return false;" id="id_frm_add_farm_field">
+        {%csrf_token%}
+        <select name="farm_id" required>
+            <option>- select farm</option>
+        {% for farm in farms %}
+            <option value="{{farm.id}}">{{farm.name}}</option>
+        {% endfor%}
+        </select>
+        <input type="text" name="name" placeholder="Farm Name" maxlength="50" required />
+
+        <select name="season" required>
+            <option>- select season</option>
+        {% for key, value in seasons.items %}
+            <option value="{{key}}">{{value}}</option>
+        {% endfor%}
+        </select>
+
+        <select name="crop_type" required>
+            <option>- select crop</option>
+        {% for key, value in crop_types.items %}
+            <option value="{{key}}">{{value}}</option>
+        {% endfor%}
+        </select>
+
+        <input type="text" name="field_from" placeholder="Crop Start Date" maxlength="10" required />
+        <input type="text" name="field_to" placeholder="Crop End Date" maxlength="10" required />
+        <div id="mapid"></div>
+        <input type="hidden" name="land_coordinates" id="id_land_coordinates" value="" />
+
+        <button type="submit">Save</button>
+    </form>
+</div>
+
+<h3>List</h3>
+<table id="farm_field" class="display" width="100%" cellspacing="0" border="1">
+    <thead>
+    <tr>
+        <th>Farm Field</th>
+        <th>Farm Name</th>
+        <th>Crop</th>
+        <th>Season</th>
+        <th>Start date</th>
+        <th>End Date</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th>Farm Field</th>
+        <th>Farm Name</th>
+        <th>Crop</th>
+        <th>Season</th>
+        <th>Start date</th>
+        <th>End Date</th>
+        <th>Delete</th>
+    </tr>
+    </tfoot>
+</table>
+
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<!--https://jsfiddle.net/user2314737/324h2d9q/-->
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+   integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+   crossorigin=""></script>
+<script src="/static/js/leaf/Leaflet.draw.js"></script>
+<script src="/static/js/leaf/Leaflet.Draw.Event.js"></script>
+
+<script src="/static/js/leaf/Toolbar.js"></script>
+<script src="/static/js/leaf/Tooltip.js"></script>
+
+    <script src="/static/js/leaf/GeometryUtil.js"></script>
+
+    <script src="/static/js/leaf/LatLngUtil.js"></script>
+    <script src="/static/js/leaf/LineUtil.Intersect.js"></script>
+    <script src="/static/js/leaf/Polygon.Intersect.js"></script>
+    <script src="/static/js/leaf/Polyline.Intersect.js"></script>
+    <script src="/static/js/leaf/TouchEvents.js"></script>
+
+    <script src="/static/js/leaf/DrawToolbar.js"></script>
+    <script src="/static/js/leaf/dt_handler/Draw.Feature.js"></script>
+    <script src="/static/js/leaf/dt_handler/Draw.SimpleShape.js"></script>
+    <script src="/static/js/leaf/dt_handler/Draw.Polyline.js"></script>
+    <script src="/static/js/leaf/dt_handler/Draw.Marker.js"></script>
+    <script src="/static/js/leaf/dt_handler/Draw.Circle.js"></script>
+    <script src="/static/js/leaf/dt_handler/Draw.CircleMarker.js"></script>
+    <script src="/static/js/leaf/dt_handler/Draw.Polygon.js"></script>
+    <script src="/static/js/leaf/dt_handler/Draw.Rectangle.js"></script>
+
+
+<script src="/static/js/leaf/Control.Draw.js"></script>
+<script>window.leaf_map=true;</script>
+
+<script src="/static/js/client.js"></script>
+<!--<div id='map' style='width: 400px; height: 300px;'></div>-->
+<!--<script>-->
+  <!--mapboxgl.accessToken = 'pk.eyJ1IjoiamtuYXJlc2giLCJhIjoiY2o4YmFmaWlpMGMwcDJxcDYxaDgxaXIwciJ9.qBkVUuA-N3PkyMBgPddVUA';-->
+  <!--var map = new mapboxgl.Map({-->
+    <!--container: 'map',-->
+    <!--style: 'mapbox://styles/mapbox/streets-v10'-->
+  <!--});-->
+<!--</script>-->
+<!--// https://leaflet.github.io/Leaflet.draw/docs/examples-0.7.x/full.html-->
+<!--// https://github.com/Leaflet-->
+
+</body>
+</html>
