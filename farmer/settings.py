@@ -97,25 +97,25 @@ WSGI_APPLICATION = 'farmer.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 # CREATE DATABASE farmer CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': "farmer",
-#         'USER': 'root',
-#         'PASSWORD': 'root',
-#     }
-# }
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': "farmland$default",
-        'USER': 'farmland',
-        'PASSWORD': 'abc!@#$%^a',
-        'HOST': 'farmland.mysql.pythonanywhere-services.com',
+        'NAME': "farmer",
+        'USER': 'root',
+        'PASSWORD': 'root',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': "farmland$default",
+#         'USER': 'farmland',
+#         'PASSWORD': 'abc!@#$%^a',
+#         'HOST': 'farmland.mysql.pythonanywhere-services.com',
+#     }
+# }
 
 
 # Password validation
